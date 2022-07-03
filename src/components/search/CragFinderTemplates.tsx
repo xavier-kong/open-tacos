@@ -34,7 +34,7 @@ interface PlaceTemplateType {
 export const PlaceTemplate = ({ placeName, shortName, center, placeId, router }: PlaceTemplateType): JSX.Element => {
   return (
     <div
-      className='px-4 py-4'
+      className='px-4 py-4 w-full'
       onClick={async () =>
         await router.push({
           pathname: '/finder',
@@ -45,13 +45,24 @@ export const PlaceTemplate = ({ placeName, shortName, center, placeId, router }:
           }
         }, undefined, { shallow: true })}
     >
-      <div className='space-x-2 lg:space-x-4 flex flex-nowrap items-center'>
-        <div className='rounded-md p-2 bg-slate-200'>
-          <Icon className='fill-slate-900 stroke-white' type='droppin' />
+      <div className='space-x-2 lg:space-x-4 flex flex-nowrap items-top '>
+        <div className='align-top'>
+          <div className='rounded-md p-2 bg-slate-200'>
+            <Icon className='fill-slate-900 stroke-white' type='droppin' />
+          </div>
         </div>
-        <div className='text-base'>{placeName}</div>
+
+        <div className='text-base flex-1'>
+          <div className='mt-2'>
+            {placeName}
+          </div>
+
+          <div className='mt-2'>
+            <CragsNearBy key={center.join()} center={center} placeId={placeId} />
+          </div>
+        </div>
       </div>
-      <div><CragsNearBy key={center.join()} center={center} placeId={placeId} /></div>
+
     </div>
   )
 }

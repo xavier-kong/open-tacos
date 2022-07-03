@@ -8,7 +8,7 @@ test('MNavBar mobile', () => {
     <MobileNavBar
       home={<div>home</div>}
       branding={<div>logo</div>}
-      search={<div>search</div>}
+      profile={<div>profile</div>}
       more={<div>more</div>}
     />
   )
@@ -17,8 +17,8 @@ test('MNavBar mobile', () => {
     .toHaveTextContent('home')
   expect(element.getByText('logo'))
     .toHaveTextContent('logo')
-  expect(element.getByText('search'))
-    .toHaveTextContent('search')
+  expect(element.getByText('profile'))
+    .toHaveTextContent('profile')
   expect(element.getByText('more'))
     .toHaveTextContent('more')
 })

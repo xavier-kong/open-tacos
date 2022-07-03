@@ -3,12 +3,9 @@ import Link from 'next/link'
 import { useSession, signIn } from 'next-auth/react'
 
 import DesktopNavBar, { NavListItem } from './ui/DesktopNavBar'
-import ClimbSearch from './search/ClimbSearch'
-import XSearch from './search/XSearch'
 import DesktopFilterBar from './finder/filters/DesktopFilterBar'
 import NavMenuButton from './ui/NavMenuButton'
 
-import { useCanary } from '../js/hooks'
 import { ButtonVariant } from './ui/BaseButton'
 
 import ProfileNavButton from './ProfileNavButton'
@@ -21,8 +18,7 @@ interface DesktopAppBarProps {
   showFilterBar?: boolean
 }
 
-export default function DesktopAppBar ({ expanded, onExpandSearchBox, onClose, showFilterBar = true }: DesktopAppBarProps): JSX.Element {
-  const canary = useCanary()
+export default function DesktopAppBar ({ expanded, showFilterBar = true }: DesktopAppBarProps): JSX.Element {
   const { status } = useSession()
 
   let navList: JSX.Element | null | JSX.Element[]
@@ -48,15 +44,6 @@ export default function DesktopAppBar ({ expanded, onExpandSearchBox, onClose, s
               <span className='hidden md:inline-flex items-center font-semibold text-xl lg:text-2xl text-custom-primary pt-1'>OpenTacos</span>
             </a>
           </Link>
-      }
-        search={
-          canary
-            ? <XSearch isMobile={false} />
-            : <ClimbSearch
-                expanded={expanded}
-                onClick={onExpandSearchBox}
-                onClickOutside={onClose}
-              />
       }
         navList={navList}
       />

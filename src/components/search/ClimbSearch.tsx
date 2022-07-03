@@ -29,7 +29,10 @@ const ClimbSearch = ({ expanded, onClick, onClickOutside }: ClimbSearchProps): J
   }
 
   return (
-    <div id='searchPanel' className='z-50 absolute top-0 left-0 mx-auto w-full  horizontal-center pointer-events-none'>
+    <div
+      id='searchPanel' className='z-50 absolute top-0 left-0 mx-auto w-full
+    horizontal-center pointer-events-none'
+    >
       <Transition
         className='h-16 flex items-center pointer-events-none'
         show={!expanded}

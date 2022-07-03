@@ -4,7 +4,6 @@ import {
   useQuery
 } from '@apollo/client'
 import { graphqlClient } from '../../js/graphql/Client'
-import DensityBar from '../ui/Statistics/DensityBar'
 
 const GET_CRAGS_NEAR = gql`query CragsNear($placeId: String, $lng: Float, $lat: Float, $maxDistance: Int) {
     cragsNear(placeId: $placeId, lnglat: {lat: $lat, lng: $lng}, maxDistance: $maxDistance) {
@@ -25,7 +24,13 @@ const CragsNearBy = ({ center, placeId }: {center: [number, number], placeId: st
     }
   })
   if (data === undefined || data.cragsNear.length === 0) {
-    return null
+    return (
+      <div className='p-2 rounded-xl bg-gray-100 border-gray-500 border
+    text-gray-600 text-center'
+      >
+        No climbs in this area :(
+      </div>
+    )
   }
 
   if (loading) {
@@ -41,16 +46,30 @@ const CragsNearBy = ({ center, placeId }: {center: [number, number], placeId: st
 export default CragsNearBy
 
 export const CragDensity = ({ crags }: {crags: any[]}): JSX.Element => {
+  const total = crags.map(i => parseInt(i.count)).reduce((pS, a) => pS + a, 0)
+
   return (
-    <div className='pl-16 mt-4 w-full'>
-      <span className='text-xs px-2 py-1 bg-slate-500 text-white'>Crags near by</span>
-      <div className='mt-4 flex items-end space-x-4 w-full'>
+    <div className='w-full border rounded-xl'>
+      <div className='mt-2 w-full text-center'>Crags Nearby</div>
+      <div className='flex items-end space-x-2 w-full px-3'>
         {crags.map(
           ({ _id, count }: {_id: string, count: number}) => {
+            const p = (count / total) * 100
+
             return (
-              <div key={_id} className='flex flex-col'>
-                <div className=''><DensityBar level={cragDensityLevel(count)} max={4} /></div>
-                <div className='mt-0.5 border-t border-slate-800 text-xs text-secondary whitespace-nowrap'>{LABELS[_id].label}</div>
+              <div key={_id} className='flex-1 relative'>
+                <div className='absolute h-full w-full'>
+                  <div style={{ height: `${100 - p}%` }} />
+                  <div className='bg-gray-100' style={{ height: `${p}%` }} />
+                </div>
+
+                <div className='relative pt-4'>
+                  <div className='text-center text-2xl'>{count}</div>
+                  <div className='text-center pt-1 text-xs text-slate-500'>
+                    {LABELS[_id].label}
+                  </div>
+                </div>
+
               </div>
             )
           })}
@@ -79,18 +98,5 @@ export const LABELS = {
   theRest: {
     label: 'More than 150 miles',
     width: 20
-  }
-}
-
-const cragDensityLevel = (count: number): number => {
-  const score = count / 20
-  if (score < 1) {
-    return 0
-  } else if (score > 1 && score < 5) {
-    return 1
-  } else if (score > 5 && score < 10) {
-    return 2
-  } else {
-    return 3
   }
 }
