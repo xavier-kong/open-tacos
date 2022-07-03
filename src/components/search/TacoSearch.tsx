@@ -40,15 +40,17 @@ export default function TacoSearch (): JSX.Element {
         />
       </div>
 
-      <div
-        style={{ zIndex: '50' }}
-        className='absolute w-full mt-4'
-      >
-        <SearchResults
-          areas={areas}
-          results={results}
-          hide={hideResults}
-        />
+      <div className='flex justify-center relative'>
+        <div
+          style={{ zIndex: '50' }}
+          className=' w-screen md:w-full p-2 md:p-0 md:mt-4 absolute'
+        >
+          <SearchResults
+            areas={areas}
+            results={results}
+            hide={hideResults}
+          />
+        </div>
       </div>
     </div>
   )

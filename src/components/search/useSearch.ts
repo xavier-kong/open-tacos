@@ -68,6 +68,7 @@ export default function useSearch (): useSearchOut {
 
     // Guard against making identical queries.
     if (_lastQuery === sanitizeQuery) {
+      setLoading(false)
       return
     }
 
@@ -81,6 +82,7 @@ export default function useSearch (): useSearchOut {
       .catch(e => {
         console.error(e)
         setResults(null)
+        setLoading(false)
       })
 
     geocoderLookup(query, SEARCH_OPTIONS)
@@ -88,7 +90,11 @@ export default function useSearch (): useSearchOut {
         setAreas(i as any)
         setLoading(false)
       })
-      .catch(console.error)
+      .catch(e => {
+        console.error(e)
+        setLoading(false)
+        setAreas(null)
+      })
   }
 
   useEffect(() => {
